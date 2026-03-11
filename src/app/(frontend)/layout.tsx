@@ -1,24 +1,16 @@
-import type { Metadata } from 'next'
-
 import { cn } from '@/utilities/ui'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
 import React from 'react'
 
-import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
-import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { draftMode } from 'next/headers'
 
 import './globals.css'
-import { getServerSideURL } from '@/utilities/getURL'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { isEnabled } = await draftMode()
-
   return (
     <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
       <head>
@@ -28,26 +20,21 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body>
         <Providers>
-          <AdminBar
-            adminBarProps={{
-              preview: isEnabled,
-            }}
-          />
+          {/* Overscroll easter egg — behind everything */}
+          <div
+            className="fixed bottom-0 left-0 w-full z-0 flex items-center justify-center py-2 pointer-events-none select-none bg-black"
+            aria-hidden="true"
+          >
+            <p className="text-[8vw] lg:text-[6vw] font-bold tracking-tight text-white/10 dark:text-white/5 whitespace-nowrap">
+              BŁAŻEJ KOWALCZYK
+            </p>
+          </div>
 
           <Header />
-          {children}
+          <main className="relative z-10 bg-background">{children}</main>
           <Footer />
         </Providers>
       </body>
     </html>
   )
-}
-
-export const metadata: Metadata = {
-  metadataBase: new URL(getServerSideURL()),
-  openGraph: mergeOpenGraph(),
-  twitter: {
-    card: 'summary_large_image',
-    creator: '@payloadcms',
-  },
 }

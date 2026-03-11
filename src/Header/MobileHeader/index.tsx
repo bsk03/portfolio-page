@@ -32,7 +32,6 @@ export const MobileHeader: React.FC = () => {
         isMenuOpen ? 'translate-x-0' : 'translate-x-full'
       )}
       style={{
-        height: 'calc(100vh - 4.75rem)',
         height: 'calc(100dvh - 4.75rem)',
         WebkitOverflowScrolling: 'touch',
       }}

@@ -95,6 +95,11 @@
 
 html {
   opacity: 0;
+  background-color: hsl(0 0% 0%);
+}
+
+[data-theme='dark'] {
+  background-color: hsl(0 0% 0%);
 }
 
 html[data-theme='dark'],
