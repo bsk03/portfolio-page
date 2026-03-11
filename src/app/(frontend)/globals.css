@@ -101,3 +101,68 @@ html[data-theme='dark'],
 html[data-theme='light'] {
   opacity: initial;
 }
+
+.page {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1600px) {
+  .page {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+}
+@media (max-width: 1024px) {
+  .page {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+.margin-page {
+  margin-left: 80px;
+  margin-right: 80px;
+}
+
+@media (max-width: 1600px) {
+  .margin-page {
+    margin-left: 80px;
+    margin-right: 80px;
+  }
+}
+@media (max-width: 1024px) {
+  .margin-page {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+}
+
+.bg-opposite-theme {
+  /* Light theme: użyj czarnego tła z dark theme */
+  background-color: hsl(0 0% 0%);
+  /* Light theme: biały tekst na czarnym tle */
+  color: hsl(0 0% 100%);
+  --opposite-color: hsl(0 0% 100%);
+  --input-bg: hsl(0 0% 100% / 0.1);
+  --input-border: hsl(0 0% 100% / 0.2);
+  --input-text: hsl(0 0% 100%);
+  --input-placeholder: hsl(0 0% 100% / 0.6);
+}
+
+[data-theme='dark'] .bg-opposite-theme {
+  /* Dark theme: użyj białego tła z light theme */
+  background-color: hsl(0 0% 100%);
+  /* Dark theme: czarny tekst na białym tle */
+  color: hsl(0 0% 0%);
+  --opposite-color: hsl(0 0% 0%);
+  --input-bg: hsl(0 0% 0% / 0.1);
+  --input-border: hsl(0 0% 0% / 0.2);
+  --input-text: hsl(0 0% 0%);
+  --input-placeholder: hsl(0 0% 0% / 0.6);
+}
+
+.bg-opposite-theme input::placeholder,
+.bg-opposite-theme textarea::placeholder {
+  color: var(--input-placeholder);
+}

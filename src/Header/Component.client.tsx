@@ -4,20 +4,19 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
-import type { Header } from '@/payload-types'
-
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
+import { MenuIcon, X } from 'lucide-react'
+import { cn } from '@/utilities/ui'
+import { useMobileHeaderStore } from '@/store/mobile-header-store'
+import { MobileHeader } from './MobileHeader'
 
-interface HeaderClientProps {
-  data: Header
-}
-
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
+export const HeaderClient: React.FC = () => {
   /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
+  const { isMenuOpen, setIsMenuOpen } = useMobileHeaderStore()
 
   useEffect(() => {
     setHeaderTheme(null)
@@ -30,13 +29,31 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   return (
-    <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-8 flex justify-between">
-        <Link href="/">
-          <Logo loading="eager" priority="high" className="invert dark:invert-0" />
-        </Link>
-        <HeaderNav data={data} />
-      </div>
-    </header>
+    <>
+      <header
+        className=" z-20 mx-auto absolute top-0 left-0 w-full  "
+        {...(theme ? { 'data-theme': theme } : {})}
+      >
+        <div className={cn('page  flex justify-between py-6')}>
+          <Link href="/">
+            <div>
+              <p className="text-lg ">Błażej Kowalczyk</p>
+              <p className="text-sm text-gray-500">Full Stack Developer</p>
+            </div>
+          </Link>
+          <button
+            className="lg:hidden flex items-center justify-center"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          >
+            {isMenuOpen ? <X className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
+          </button>
+          <div className="hidden lg:block">
+            <HeaderNav />
+          </div>
+        </div>
+      </header>
+      <MobileHeader />
+    </>
   )
 }

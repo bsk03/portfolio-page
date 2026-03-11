@@ -14,21 +14,13 @@ export async function Footer() {
   const navItems = footerData?.navItems || []
 
   return (
-    <footer className="mt-auto border-t border-border bg-black dark:bg-card text-white">
-      <div className="container py-8 gap-8 flex flex-col md:flex-row md:justify-between">
-        <Link className="flex items-center" href="/">
-          <Logo />
-        </Link>
-
-        <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">
-          <ThemeSelector />
-          <nav className="flex flex-col md:flex-row gap-4">
-            {navItems.map(({ link }, i) => {
-              return <CMSLink className="text-white" key={i} {...link} />
-            })}
-          </nav>
-        </div>
-      </div>
+    <footer
+      className="mt-auto border-t border-border bg-black dark:bg-card text-white rounded-l-[100px] rounded-b-0 flex items-center justify-center py-4"
+      style={{ borderBottomLeftRadius: '0px' }}
+    >
+      <p className="text-sm text-center">
+        © {new Date().getFullYear()} Błażej Kowalczyk. All rights reserved.
+      </p>
     </footer>
   )
 }

@@ -1,25 +1,32 @@
 'use client'
 
 import React from 'react'
-
-import type { Header as HeaderType } from '@/payload-types'
-
-import { CMSLink } from '@/components/Link'
 import Link from 'next/link'
-import { SearchIcon } from 'lucide-react'
+import { ThemeToggle } from '../ThemeToggle'
 
-export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
-  const navItems = data?.navItems || []
+export const HeaderNav: React.FC = () => {
+  const navItems = [
+    { label: 'About', href: '#about' },
+    { label: 'Projects', href: '#projects' },
+    { label: 'Skills', href: '#skills' },
+    { label: 'Experience', href: '#experience' },
+    { label: 'Contact', href: '#contact' },
+  ]
 
   return (
-    <nav className="flex gap-3 items-center">
-      {navItems.map(({ link }, i) => {
-        return <CMSLink key={i} {...link} appearance="link" />
-      })}
-      <Link href="/search">
-        <span className="sr-only">Search</span>
-        <SearchIcon className="w-5 text-primary" />
-      </Link>
+    <nav className="flex gap-6 items-center">
+      {navItems.map((item) => (
+        <Link
+          key={item.href}
+          href={item.href}
+          className="text-sm font-medium hover:text-primary transition-colors"
+        >
+          {item.label}
+        </Link>
+      ))}
+      <div className="ml-auto">
+        <ThemeToggle />
+      </div>
     </nav>
   )
 }
