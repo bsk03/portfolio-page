@@ -154,6 +154,7 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
+  prefix?: string | null;
   folder?: (number | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
@@ -242,7 +243,7 @@ export interface Project {
   /**
    * Main hero image
    */
-  image: number | Media;
+  image?: (number | null) | Media;
   screenshots?:
     | {
         image: number | Media;
@@ -387,6 +388,7 @@ export interface PayloadMigration {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
+  prefix?: T;
   folder?: T;
   updatedAt?: T;
   createdAt?: T;

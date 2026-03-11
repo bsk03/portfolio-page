@@ -24,6 +24,13 @@
           "primaryKey": false,
           "notNull": false
         },
+        "prefix": {
+          "name": "prefix",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'media'"
+        },
         "folder_id": {
           "name": "folder_id",
           "type": "integer",
@@ -1973,6 +1980,6 @@
     "tables": {},
     "columns": {}
   },
-  "id": "b58b887e-2e6f-406b-8a22-a86ddc91eed9",
+  "id": "5cbd89af-570d-4b54-9953-00b863e04b0a",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

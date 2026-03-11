@@ -38,7 +38,6 @@ export const Projects: CollectionConfig = {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
-      required: true,
       admin: {
         description: 'Main hero image',
       },
