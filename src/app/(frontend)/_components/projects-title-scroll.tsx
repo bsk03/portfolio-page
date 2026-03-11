@@ -20,8 +20,8 @@ export const ProjectsTitleScroll: React.FC = () => {
       const scrolled = viewportHeight - rect.top
       const progress = Math.min(1, Math.max(0, scrolled / scrollRange))
 
-      // Od lewej (-30%) do prawej (+30%) w miarę scrollowania
-      const offset = -30 + progress * 60
+      // Od lewej (-40vw) do prawej (+40vw) w miarę scrollowania
+      const offset = -40 + progress * 80
       setTranslateX(offset)
     }
 
@@ -36,11 +36,14 @@ export const ProjectsTitleScroll: React.FC = () => {
   }, [])
 
   return (
-    <div ref={wrapperRef} className="relative overflow-hidden mb-6 lg:mb-12 h-[40vh] lg:h-[60vh]">
+    <div ref={wrapperRef} className="relative mb-6 lg:mb-12 h-[40vh] lg:h-[60vh]">
       <div
-        className="pointer-events-none absolute left-1/2 top-1/2 whitespace-nowrap text-[26vw] sm:text-[22vw] lg:text-[20rem] font-bold tracking-tight text-foreground/5 leading-none transition-transform duration-75 will-change-transform"
+        className="pointer-events-none absolute top-1/2 left-[50%] whitespace-nowrap text-[26vw] sm:text-[22vw] lg:text-[20rem] font-bold tracking-tight text-foreground/5 leading-none transition-transform duration-75 will-change-transform"
         style={{
-          transform: `translate(-50%, -50%) translateX(${translateX}%)`,
+          transform: `translateX(calc(-50% + ${translateX}vw)) translateY(-50%)`,
+          marginLeft: 'calc(-50vw + 50%)',
+          width: '100vw',
+          textAlign: 'center',
         }}
         aria-hidden="true"
       >

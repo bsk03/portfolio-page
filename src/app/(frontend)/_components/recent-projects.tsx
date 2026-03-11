@@ -14,7 +14,7 @@ export default async function RecentProjects() {
   return (
     <section
       id="projects"
-      className="page w-full flex flex-col gap-8 lg:gap-12 py-4 lg:py-16 pt-0 relative"
+      className="page w-full flex flex-col gap-8 lg:gap-12 py-4 lg:py-16 pt-0 relative overflow-visible"
     >
       <AnimatedProjects>
         {displayedProjects.map((project, i) => (
@@ -30,7 +30,7 @@ export default async function RecentProjects() {
         </Button>
       </div>
 
-      <div className="absolute top-[-150px] left-0 w-full h-full pointer-events-none z-[1]">
+      <div className="absolute top-[-150px] left-0 w-full h-full pointer-events-none z-[1] overflow-visible">
         <ProjectsTitleScroll />
       </div>
     </section>
