@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Loader2 } from 'lucide-react'
 import type { Project } from '@/data/projects'
 
@@ -13,7 +14,18 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       href={`/projects/${project.slug}`}
       className="group flex flex-col gap-4 rounded-2xl border border-border p-6 transition-colors hover:bg-muted/30"
     >
-      <div className="aspect-video w-full rounded-xl bg-muted overflow-hidden" />
+      <div className="aspect-video w-full rounded-xl bg-muted overflow-hidden relative">
+        {typeof project.image === 'object' && project.image?.url && (
+          <Image
+            src={project.image.url}
+            alt={project.image.alt ?? project.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            unoptimized
+          />
+        )}
+      </div>
       <div className="flex items-baseline gap-3">
         <span className="text-xs font-mono text-muted-foreground">{number}</span>
         <h2 className="text-xl lg:text-2xl font-semibold group-hover:underline">

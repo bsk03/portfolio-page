@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { Github, Zap } from 'lucide-react'
 import type { Project } from '@/data/projects'
 
@@ -9,6 +10,7 @@ export function ProjectRow({ project, index }: { project: Project; index: number
   const number = String(index + 1).padStart(2, '0')
   const router = useRouter()
 
+  console.log(project)
   return (
     <article
       onClick={() => router.push(`/projects/${project.slug}`)}
@@ -56,7 +58,18 @@ export function ProjectRow({ project, index }: { project: Project; index: number
         </div>
       </div>
 
-      <div className="aspect-video rounded-xl bg-muted overflow-hidden" />
+      <div className="aspect-video rounded-xl bg-muted overflow-hidden relative">
+        {typeof project.image === 'object' && project.image?.url && (
+          <Image
+            src={project.image.url}
+            alt={project.image.alt ?? project.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            unoptimized
+          />
+        )}
+      </div>
     </article>
   )
 }
