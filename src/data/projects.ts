@@ -38,6 +38,22 @@ export async function getProjects(): Promise<Project[]> {
   return result.docs.map(mapProject)
 }
 
+export async function getProjectsPaginated(page: number = 1, limit: number = 6) {
+  const payload = await getPayload({ config })
+  const result = await payload.find({
+    collection: 'projects',
+    sort: 'order',
+    page,
+    limit,
+  })
+  return {
+    projects: result.docs.map(mapProject),
+    hasNextPage: result.hasNextPage,
+    nextPage: result.nextPage,
+    totalDocs: result.totalDocs,
+  }
+}
+
 export async function getProjectBySlug(slug: string): Promise<Project | undefined> {
   const payload = await getPayload({ config })
   const result = await payload.find({
