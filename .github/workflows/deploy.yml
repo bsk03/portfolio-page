@@ -1,4 +1,4 @@
-name: Deploy to Production
+name: Run Migrations
 
 on:
   push:
@@ -34,12 +34,4 @@ jobs:
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
           DATABASE_SSL: "true"
-          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
-
-      - uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: "--prod"
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET || 'ci-migrate-only' }}
