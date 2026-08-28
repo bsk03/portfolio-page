@@ -5,6 +5,12 @@ import { getProjectsPaginated } from '@/data/projects'
 import { ProjectsInfiniteScroll } from '../_components/projects-infinite-scroll'
 import type { Metadata } from 'next'
 
+// These routes read from Payload at build time. Without a revalidate window they
+// stay frozen on the HTML produced by the last deploy, so anything added in the
+// CMS afterwards never appears in production.
+export const revalidate = 60
+
+
 export const metadata: Metadata = {
   title: 'Projects – Błażej Kowalczyk',
   description: 'All projects by Błażej Kowalczyk.',
