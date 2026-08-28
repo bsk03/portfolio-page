@@ -1,7 +1,6 @@
 import React from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
 import { ArrowLeft, ArrowRight, Github, Zap } from 'lucide-react'
 import { getProjects, getProjectBySlug, getAdjacentProjects } from '@/data/projects'
 import type { Metadata } from 'next'
@@ -39,34 +38,6 @@ function mediaOf(value: unknown): Media | null {
   return value && typeof value === 'object' ? (value as Media) : null
 }
 
-function ProjectImage({
-  media,
-  alt,
-  sizes,
-  priority,
-}: {
-  media: Media | null
-  alt: string
-  sizes: string
-  priority?: boolean
-}) {
-  return (
-    <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-border bg-muted">
-      {media?.url && (
-        <Image
-          src={media.url}
-          alt={media.alt ?? alt}
-          fill
-          sizes={sizes}
-          priority={priority}
-          className="object-cover"
-          unoptimized
-        />
-      )}
-    </div>
-  )
-}
-
 export default async function ProjectPage({ params }: Props) {
   const { slug } = await params
   const project = await getProjectBySlug(slug)
@@ -80,19 +51,34 @@ export default async function ProjectPage({ params }: Props) {
   const mainImage = mediaOf(project.image)
   const demoVideo = mediaOf(project.demoVideo)
 
-  const galleryItems: GalleryItem[] = (project.screenshots ?? []).flatMap((shot, i) => {
-    const media = mediaOf(shot.image)
-    if (!media?.url) return []
-    return [
-      {
-        url: media.url,
-        alt: media.alt ?? `${project.title} screenshot ${i + 1}`,
-        caption: shot.caption ?? null,
-        width: media.width ?? 1600,
-        height: media.height ?? 900,
-      },
-    ]
-  })
+  // The cover and the screenshots form a single stack, so the lightbox spans
+  // every image instead of leaving the cover as a separate, unclickable block.
+  const galleryItems: GalleryItem[] = [
+    ...(mainImage?.url
+      ? [
+          {
+            url: mainImage.url,
+            alt: mainImage.alt ?? project.title,
+            caption: null,
+            width: mainImage.width ?? 1600,
+            height: mainImage.height ?? 900,
+          },
+        ]
+      : []),
+    ...(project.screenshots ?? []).flatMap((shot, i) => {
+      const media = mediaOf(shot.image)
+      if (!media?.url) return []
+      return [
+        {
+          url: media.url,
+          alt: media.alt ?? `${project.title} screenshot ${i + 1}`,
+          caption: shot.caption ?? null,
+          width: media.width ?? 1600,
+          height: media.height ?? 900,
+        },
+      ]
+    }),
+  ]
 
   return (
     <article className="page flex flex-col gap-8 py-8 sm:py-10">
@@ -115,12 +101,23 @@ export default async function ProjectPage({ params }: Props) {
 
       <div className="h-px bg-border" />
 
-      <ProjectImage
-        media={mainImage}
-        alt={project.title}
-        sizes="(max-width: 768px) 100vw, 768px"
-        priority
-      />
+      {galleryItems.length > 0 && <Gallery items={galleryItems} />}
+
+      {demoVideo?.url && (
+        <div className="flex flex-col gap-3">
+          <h2 className="eyebrow">Demo</h2>
+          <video
+            controls
+            playsInline
+            preload="metadata"
+            poster={mainImage?.url ?? undefined}
+            className="w-full rounded-xl border border-border bg-muted"
+          >
+            <source src={demoVideo.url} type={demoVideo.mimeType ?? 'video/mp4'} />
+            Your browser cannot play this video.
+          </video>
+        </div>
+      )}
 
       <div className="h-px bg-border" />
 
@@ -178,35 +175,6 @@ export default async function ProjectPage({ params }: Props) {
           </div>
         </div>
       </div>
-
-      {demoVideo?.url && (
-        <>
-          <div className="h-px bg-border" />
-          <div className="flex flex-col gap-3">
-            <h2 className="eyebrow">Demo</h2>
-            <video
-              controls
-              playsInline
-              preload="metadata"
-              poster={mainImage?.url ?? undefined}
-              className="w-full rounded-xl border border-border bg-muted"
-            >
-              <source src={demoVideo.url} type={demoVideo.mimeType ?? 'video/mp4'} />
-              Your browser cannot play this video.
-            </video>
-          </div>
-        </>
-      )}
-
-      {galleryItems.length > 0 && (
-        <>
-          <div className="h-px bg-border" />
-          <div className="flex flex-col gap-3">
-            <h2 className="eyebrow">Gallery</h2>
-            <Gallery items={galleryItems} />
-          </div>
-        </>
-      )}
 
       <div className="h-px bg-border" />
       <nav className="flex items-center justify-between">
