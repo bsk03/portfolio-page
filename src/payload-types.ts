@@ -67,6 +67,7 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    experience: Experience;
     media: Media;
     projects: Project;
     users: User;
@@ -82,6 +83,7 @@ export interface Config {
     };
   };
   collectionsSelect: {
+    experience: ExperienceSelect<false> | ExperienceSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -131,6 +133,53 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experience".
+ */
+export interface Experience {
+  id: number;
+  /**
+   * Job title, e.g. "Full-Stack Developer"
+   */
+  role: string;
+  /**
+   * Company or organisation name, shown as @company
+   */
+  company: string;
+  /**
+   * Optional link. Adds a chevron to the row.
+   */
+  companyUrl?: string | null;
+  /**
+   * Glyph shown in the tile on the left.
+   */
+  icon?: ('code' | 'briefcase' | 'rocket' | 'trophy' | 'graduation' | 'terminal') | null;
+  workplace?: ('remote' | 'hybrid' | 'onsite') | null;
+  /**
+   * Optional city / country shown next to the workplace type.
+   */
+  location?: string | null;
+  startDate: string;
+  /**
+   * Still working here — renders "Present" instead of an end date.
+   */
+  current?: boolean | null;
+  endDate?: string | null;
+  description: string;
+  technologies?:
+    | {
+        name: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Lower number = shown first
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -244,12 +293,23 @@ export interface Project {
    * Main hero image
    */
   image?: (number | null) | Media;
+  /**
+   * Shown full width, one under another. Drag to reorder.
+   */
   screenshots?:
     | {
         image: number | Media;
+        /**
+         * Optional line under the image.
+         */
+        caption?: string | null;
         id?: string | null;
       }[]
     | null;
+  /**
+   * Optional MP4 or WebM. Rendered as a player above the gallery, using the main image as its poster.
+   */
+  demoVideo?: (number | null) | Media;
   technologies: {
     name: string;
     id?: string | null;
@@ -262,6 +322,10 @@ export interface Project {
    * Source code URL
    */
   source?: string | null;
+  /**
+   * Badge on the project card. "Live" means deployed and reachable.
+   */
+  status: 'live' | 'in-progress' | 'archived' | 'concept';
   /**
    * Lower number = shown first
    */
@@ -324,6 +388,10 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
+        relationTo: 'experience';
+        value: number | Experience;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -380,6 +448,31 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experience_select".
+ */
+export interface ExperienceSelect<T extends boolean = true> {
+  role?: T;
+  company?: T;
+  companyUrl?: T;
+  icon?: T;
+  workplace?: T;
+  location?: T;
+  startDate?: T;
+  current?: T;
+  endDate?: T;
+  description?: T;
+  technologies?:
+    | T
+    | {
+        name?: T;
+        id?: T;
+      };
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -459,8 +552,10 @@ export interface ProjectsSelect<T extends boolean = true> {
     | T
     | {
         image?: T;
+        caption?: T;
         id?: T;
       };
+  demoVideo?: T;
   technologies?:
     | T
     | {
@@ -469,6 +564,7 @@ export interface ProjectsSelect<T extends boolean = true> {
       };
   demo?: T;
   source?: T;
+  status?: T;
   order?: T;
   generateSlug?: T;
   slug?: T;
@@ -560,6 +656,10 @@ export interface About {
    * Profile photo. Leave empty to use text-only layout.
    */
   photo?: (number | null) | Media;
+  /**
+   * CV as a PDF. When set, a "Download CV" button appears in the hero. Leave empty to hide it.
+   */
+  cv?: (number | null) | Media;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -587,6 +687,7 @@ export interface Footer {
  */
 export interface AboutSelect<T extends boolean = true> {
   photo?: T;
+  cv?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

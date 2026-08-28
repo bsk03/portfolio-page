@@ -14,17 +14,17 @@ export default async function ProjectsPage() {
   const { projects, hasNextPage } = await getProjectsPaginated(1, 6)
 
   return (
-    <div className="page w-full py-12 lg:py-24 flex flex-col gap-12 lg:gap-16">
+    <div className="page flex flex-col gap-6 py-8 sm:py-10">
       <div className="flex flex-col gap-4">
         <Link
           href="/#projects"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors w-fit"
+          className="inline-flex w-fit items-center gap-2 font-mono text-[11px] uppercase tracking-[0.12em] text-ink-muted transition-colors hover:text-brand"
         >
-          <ArrowLeft className="size-4" />
+          <ArrowLeft className="size-3.5" />
           Back home
         </Link>
-        <h1 className="text-4xl lg:text-6xl font-semibold">All Projects</h1>
-        <p className="text-lg text-muted-foreground">
+        <h1 className="text-2xl font-extrabold tracking-tight">All Projects</h1>
+        <p className="text-[13px] text-ink-muted">
           A collection of things I&apos;ve built.
         </p>
       </div>

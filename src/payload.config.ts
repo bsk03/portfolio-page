@@ -5,6 +5,7 @@ import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
+import { Experience } from './collections/Experience'
 import { Media } from './collections/Media'
 import { Projects } from './collections/Projects'
 import { Users } from './collections/Users'
@@ -35,7 +36,7 @@ export default buildConfig({
       ssl: process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized: false } : false,
     },
   }),
-  collections: [Media, Projects, Users],
+  collections: [Experience, Media, Projects, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [About, Header, Footer],
   plugins: [

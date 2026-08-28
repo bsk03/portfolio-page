@@ -51,9 +51,10 @@ const config = {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
       borderRadius: {
+        xl: 'calc(var(--radius) + 4px)',
         lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
+        md: 'calc(var(--radius) - 4px)',
+        sm: 'calc(var(--radius) - 6px)',
       },
       colors: {
         accent: {
@@ -61,7 +62,7 @@ const config = {
           foreground: 'hsl(var(--accent-foreground))',
         },
         background: 'hsl(var(--background))',
-        border: 'hsla(var(--border))',
+        border: 'hsl(var(--border))',
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
@@ -89,13 +90,25 @@ const config = {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
         },
+        surface: 'hsl(var(--surface))',
+        'surface-2': 'hsl(var(--surface-2))',
+        line: 'hsl(var(--line))',
+        ink: {
+          DEFAULT: 'hsl(var(--ink))',
+          2: 'hsl(var(--ink-2))',
+          muted: 'hsl(var(--ink-muted))',
+        },
+        brand: {
+          DEFAULT: 'hsl(var(--brand))',
+          cyan: 'hsl(var(--brand-cyan))',
+        },
         success: 'hsl(var(--success))',
         error: 'hsl(var(--error))',
         warning: 'hsl(var(--warning))',
       },
       fontFamily: {
-        mono: ['var(--font-geist-mono)'],
-        sans: ['var(--font-geist-sans)'],
+        mono: ['var(--font-geist-mono)', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        sans: ['var(--font-geist-sans)', 'system-ui', '-apple-system', 'sans-serif'],
       },
       keyframes: {
         'accordion-down': {

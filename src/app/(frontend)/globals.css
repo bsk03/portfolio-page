@@ -14,73 +14,97 @@
   }
 
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 240 7% 97%;
+    --foreground: 240 10% 4%;
 
-    --card: 240 5% 96%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 4%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 240 10% 4%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 240 10% 4%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 240 6% 94%;
+    --secondary-foreground: 240 4% 16%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 240 6% 94%;
+    --muted-foreground: 240 5% 34%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 240 6% 94%;
+    --accent-foreground: 240 4% 16%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 240 6% 80%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 85.9 78.4% 27.3%;
 
-    --radius: 0.2rem;
+    --radius: 0.75rem;
 
     --success: 196 52% 74%;
     --warning: 34 89% 85%;
     --error: 10 100% 86%;
+
+    /* document palette */
+    --surface: 240 7% 97%;
+    --surface-2: 0 0% 100%;
+    --ink: 240 10% 4%;
+    --ink-2: 240 4% 16%;
+    --ink-muted: 240 5% 34%;
+    --line: 240 6% 90%;
+    --brand: 85.9 78.4% 27.3%; /* #4d7c0f */
+    --brand-cyan: 160.1 94.4% 24.5%; /* #047857 */
+    --banner-ink: 82 84.5% 67.1%; /* #bef264 */
+    --glow-alpha: 0.06;
+    --noise-opacity: 0.5;
   }
 
   [data-theme='dark'] {
     --background: 0 0% 0%;
     --foreground: 210 40% 98%;
 
-    --card: 0 0% 4%;
+    --card: 240 10% 4%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 240 10% 4%;
     --popover-foreground: 210 40% 98%;
 
     --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary-foreground: 240 10% 4%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 240 4% 16%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 4% 46%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 240 4% 16%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 0, 0%, 15%, 0.8;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
+    --ring: 82 84.5% 67.1%;
 
     --success: 196 100% 14%;
     --warning: 34 51% 25%;
     --error: 10 39% 43%;
+
+    --surface: 0 0% 0%;
+    --surface-2: 240 10% 4%;
+    --ink: 210 40% 98%;
+    --ink-2: 240 5% 65%;
+    --ink-muted: 240 4% 46%;
+    --line: 240 4% 16%;
+    --brand: 82 84.5% 67.1%; /* #bef264 */
+    --brand-cyan: 159.8 64.4% 51.6%; /* #34d399 */
+    --glow-alpha: 0.1;
+    --noise-opacity: 0.35;
   }
 }
 
@@ -89,13 +113,24 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground min-h-[100vh] flex flex-col overflow-x-hidden;
+    @apply bg-background text-foreground min-h-[100vh] flex flex-col overflow-x-hidden antialiased;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    /* Reserve the scrollbar track so short and tall pages line up identically.
+       Note this does NOT survive `overflow: hidden` — the gutter is only kept
+       while overflow is auto/scroll, so scroll-locking still shifts `fixed`
+       elements. Anything that needs a lock must block scroll events instead. */
+    scrollbar-gutter: stable;
   }
 }
 
 html {
   opacity: 0;
   background-color: hsl(0 0% 0%);
+}
+
+html[data-theme='light'] {
+  background-color: hsl(240 7% 97%);
 }
 
 [data-theme='dark'] {
@@ -107,46 +142,88 @@ html[data-theme='light'] {
   opacity: initial;
 }
 
+/* ---------- document container ---------- */
+
 .page {
-  max-width: 1600px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
-@media (max-width: 1600px) {
+@media (min-width: 640px) {
   .page {
-    padding-left: 80px;
-    padding-right: 80px;
-  }
-}
-@media (max-width: 1024px) {
-  .page {
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 }
 
 .margin-page {
-  margin-left: 80px;
-  margin-right: 80px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 48rem;
 }
 
-@media (max-width: 1600px) {
-  .margin-page {
-    margin-left: 80px;
-    margin-right: 80px;
-  }
+/* ---------- grain overlay ---------- */
+
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
 }
-@media (max-width: 1024px) {
-  .margin-page {
-    margin-left: 16px;
-    margin-right: 16px;
-  }
+
+/* ---------- ambient glow blob ---------- */
+
+.glow-blob {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 9999px;
+  pointer-events: none;
+  filter: blur(100px);
+  background-color: hsl(var(--brand) / var(--glow-alpha));
 }
+
+/* ---------- eyebrow label ---------- */
+
+.eyebrow {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: hsl(var(--brand));
+}
+
+/* ---------- scrollbar ---------- */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--surface));
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--line));
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--brand));
+}
+
+::selection {
+  background: hsl(var(--brand) / 0.2);
+}
+
+/* ---------- opposite theme block (kept) ---------- */
 
 .bg-opposite-theme {
-  /* Light theme: użyj czarnego tła z dark theme */
   background-color: hsl(0 0% 0%);
-  /* Light theme: biały tekst na czarnym tle */
   color: hsl(0 0% 100%);
   --opposite-color: hsl(0 0% 100%);
   --input-bg: hsl(0 0% 100% / 0.1);
@@ -156,9 +233,7 @@ html[data-theme='light'] {
 }
 
 [data-theme='dark'] .bg-opposite-theme {
-  /* Dark theme: użyj białego tła z light theme */
   background-color: hsl(0 0% 100%);
-  /* Dark theme: czarny tekst na białym tle */
   color: hsl(0 0% 0%);
   --opposite-color: hsl(0 0% 0%);
   --input-bg: hsl(0 0% 0% / 0.1);
@@ -170,4 +245,99 @@ html[data-theme='light'] {
 .bg-opposite-theme input::placeholder,
 .bg-opposite-theme textarea::placeholder {
   color: var(--input-placeholder);
+}
+
+/* ---------- hero banner: terminal rain ---------- */
+
+.banner-base {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-bottom: 1px solid hsl(var(--border));
+  border-top-left-radius: calc(var(--radius) + 4px);
+  border-top-right-radius: calc(var(--radius) + 4px);
+}
+
+.banner-terminal {
+  background-color: #05070a;
+}
+
+/* The fade belongs on the static wrapper. On the moving track it would scroll
+   along with the text instead of staying pinned to the banner edges. */
+.banner-terminal-mask {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 45%, #000 72%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 45%, #000 72%, transparent);
+}
+
+/* The track holds exactly two identical copies and nothing else — no padding,
+   no margins. Only then does -50% land precisely one copy down and the loop
+   become invisible. */
+.banner-terminal .banner-terminal-track {
+  animation: terminal-scroll 20s linear infinite;
+  /* Fixed light-on-dark green: the banner is near-black in both themes,
+     so it must not follow --brand, which goes dark in light mode. */
+  color: hsl(var(--banner-ink));
+}
+
+@keyframes terminal-scroll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner-terminal .banner-terminal-track {
+    animation: none;
+  }
+}
+
+/* ---------- CTA with a travelling accent border ---------- */
+
+.cta-ring {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  border-radius: calc(var(--radius) - 4px);
+  padding: 1px;
+  background-color: hsl(var(--border));
+}
+
+.cta-ring::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 220%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 200deg,
+    hsl(var(--brand) / 0.15) 260deg,
+    hsl(var(--brand)) 310deg,
+    hsl(var(--brand) / 0.15) 350deg,
+    transparent 360deg
+  );
+  animation: cta-ring-spin 3s linear infinite;
+}
+
+.cta-ring > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes cta-ring-spin {
+  to {
+    rotate: 1turn;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-ring::before {
+    animation: none;
+    background: hsl(var(--brand));
+  }
 }

@@ -45,6 +45,10 @@ export const Projects: CollectionConfig = {
     {
       name: 'screenshots',
       type: 'array',
+      label: 'Gallery',
+      admin: {
+        description: 'Shown full width, one under another. Drag to reorder.',
+      },
       fields: [
         {
           name: 'image',
@@ -52,7 +56,24 @@ export const Projects: CollectionConfig = {
           relationTo: 'media',
           required: true,
         },
+        {
+          name: 'caption',
+          type: 'text',
+          admin: {
+            description: 'Optional line under the image.',
+          },
+        },
       ],
+    },
+    {
+      name: 'demoVideo',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Demo video',
+      admin: {
+        description:
+          'Optional MP4 or WebM. Rendered as a player above the gallery, using the main image as its poster.',
+      },
     },
     {
       name: 'technologies',
@@ -78,6 +99,22 @@ export const Projects: CollectionConfig = {
       type: 'text',
       admin: {
         description: 'Source code URL',
+      },
+    },
+    {
+      name: 'status',
+      type: 'select',
+      defaultValue: 'live',
+      required: true,
+      options: [
+        { label: 'Live', value: 'live' },
+        { label: 'In progress', value: 'in-progress' },
+        { label: 'Archived', value: 'archived' },
+        { label: 'Concept', value: 'concept' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description: 'Badge on the project card. "Live" means deployed and reachable.',
       },
     },
     {
