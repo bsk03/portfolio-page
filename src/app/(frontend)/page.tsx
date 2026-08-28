@@ -1,4 +1,10 @@
 import type { Metadata } from 'next'
+
+// These routes read from Payload at build time. Without a revalidate window they
+// stay frozen on the HTML produced by the last deploy, so anything added in the
+// CMS afterwards never appears in production.
+export const revalidate = 60
+
 import React from 'react'
 import Hero from './_components/hero'
 import AboutMe from './_components/about-me'

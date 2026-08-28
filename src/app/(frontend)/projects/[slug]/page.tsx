@@ -5,6 +5,12 @@ import Image from 'next/image'
 import { ArrowLeft, ArrowRight, Github, Zap } from 'lucide-react'
 import { getProjects, getProjectBySlug, getAdjacentProjects } from '@/data/projects'
 import type { Metadata } from 'next'
+
+// These routes read from Payload at build time. Without a revalidate window they
+// stay frozen on the HTML produced by the last deploy, so anything added in the
+// CMS afterwards never appears in production.
+export const revalidate = 60
+
 import type { Media } from '@/payload-types'
 import { StatusBadge } from '../../_components/status-badge'
 import { Gallery, type GalleryItem } from './gallery'
