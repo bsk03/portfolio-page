@@ -2,10 +2,10 @@
 
 import React from 'react'
 import Link from 'next/link'
+import { AnimatePresence, motion } from 'motion/react'
 import { useMobileHeaderStore } from '@/store/mobile-header-store'
 import { useScrollLock } from '@/hooks/useScrollLock'
 import { ThemeToggle } from '../ThemeToggle'
-import { cn } from '@/utilities/ui'
 
 const navItems = [
   { label: 'Home', href: '#home' },
@@ -26,41 +26,47 @@ export const MobileHeader: React.FC = () => {
     setIsMenuOpen(false)
   }
 
+  // Unmounted while closed, on purpose. Parking the panel off-screen with
+  // `translate-x-full` left a full-viewport-wide box to the right of the page.
+  // Being `fixed`, it ignored `overflow-x: hidden` on body — it is positioned
+  // against the viewport, not against body — so mobile Safari let you pan
+  // sideways into empty space. AnimatePresence keeps the slide-out animation.
   return (
-    <div
-      className={cn(
-        'lg:hidden fixed inset-0 top-[3.75rem] z-30 flex flex-col bg-background transition-transform duration-300 ease-in-out',
-        isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-      )}
-      style={{
-        height: 'calc(100dvh - 3.75rem)',
-        WebkitOverflowScrolling: 'touch',
-      }}
-    >
-      {/* Scrollowalna sekcja z linkami */}
-      <nav 
-        className="flex-1 overflow-y-auto flex flex-col p-6 gap-4 min-h-0"
-        style={{
-          WebkitOverflowScrolling: 'touch',
-        }}
-      >
-        {navItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            onClick={handleLinkClick}
-            className="text-sm font-medium text-foreground hover:text-brand transition-colors py-2"
+    <AnimatePresence>
+      {isMenuOpen && (
+        <motion.div
+          key="mobile-menu"
+          initial={{ x: '100%' }}
+          animate={{ x: 0 }}
+          exit={{ x: '100%' }}
+          transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+          className="fixed inset-0 top-[3.75rem] z-30 flex flex-col bg-background lg:hidden"
+          style={{
+            height: 'calc(100dvh - 3.75rem)',
+            WebkitOverflowScrolling: 'touch',
+          }}
+        >
+          <nav
+            className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-6"
+            style={{ WebkitOverflowScrolling: 'touch' }}
           >
-            {item.label}
-          </Link>
-        ))}
-      </nav>
-      
-      {/* Footer z Theme Toggle */}
-      <div className="flex-shrink-0 bg-background border-t border-border p-6">
-        <ThemeToggle />
-      </div>
-    </div>
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={handleLinkClick}
+                className="py-2 text-sm font-medium text-foreground transition-colors hover:text-brand"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="shrink-0 border-t border-border bg-background p-6">
+            <ThemeToggle />
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
-

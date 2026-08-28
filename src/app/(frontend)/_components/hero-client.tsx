@@ -27,8 +27,11 @@ export function HeroClient({
   photoAlt: string
   cvUrl: string | null
 }) {
+  // `overflow-x-clip` rather than `hidden`: setting one axis to hidden forces the
+  // other to `auto`, which would trap the glow vertically. `clip` keeps the
+  // vertical bleed while stopping the blob from widening the page on mobile.
   return (
-    <section id="home" className="relative w-full overflow-visible pt-8 sm:pt-12">
+    <section id="home" className="relative w-full overflow-x-clip pt-8 sm:pt-12">
       <div className="glow-blob left-1/4 top-1/3 -translate-x-1/2" aria-hidden="true" />
       <div className="glow-blob right-0 top-1/2 translate-x-1/3" aria-hidden="true" />
 
