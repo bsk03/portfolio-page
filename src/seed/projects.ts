@@ -72,6 +72,7 @@ export async function seedProjects() {
         technologies: project.technologies.map((name) => ({ name })),
         demo: project.demo ?? undefined,
         source: project.source ?? undefined,
+        status: 'live',
         order: project.order,
         slug: project.slug,
       },

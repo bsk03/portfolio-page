@@ -8,10 +8,11 @@ import { ThemeToggle } from '../ThemeToggle'
 import { cn } from '@/utilities/ui'
 
 const navItems = [
+  { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
+  { label: 'Experience', href: '#experience' },
   { label: 'Projects', href: '#projects' },
   { label: 'Skills', href: '#skills' },
-  { label: 'Experience', href: '#experience' },
   { label: 'Contact', href: '#contact' },
 ]
 
@@ -28,11 +29,11 @@ export const MobileHeader: React.FC = () => {
   return (
     <div
       className={cn(
-        'lg:hidden fixed inset-0 top-[4.75rem] z-30 flex flex-col bg-background transition-transform duration-300 ease-in-out',
+        'lg:hidden fixed inset-0 top-[3.75rem] z-30 flex flex-col bg-background transition-transform duration-300 ease-in-out',
         isMenuOpen ? 'translate-x-0' : 'translate-x-full'
       )}
       style={{
-        height: 'calc(100dvh - 4.75rem)',
+        height: 'calc(100dvh - 3.75rem)',
         WebkitOverflowScrolling: 'touch',
       }}
     >
@@ -48,7 +49,7 @@ export const MobileHeader: React.FC = () => {
             key={item.href}
             href={item.href}
             onClick={handleLinkClick}
-            className="text-sm font-medium text-foreground hover:text-primary transition-colors py-2"
+            className="text-sm font-medium text-foreground hover:text-brand transition-colors py-2"
           >
             {item.label}
           </Link>

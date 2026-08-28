@@ -7,6 +7,8 @@ import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
+import { CursorGlow } from '@/components/ambient/cursor-glow'
+import { NoiseOverlay } from '@/components/ambient/noise-overlay'
 
 import './globals.css'
 
@@ -20,18 +22,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body>
         <Providers>
-          {/* Overscroll easter egg — behind everything */}
-          <div
-            className="fixed bottom-0 left-0 w-full z-0 flex items-center justify-center py-2 pointer-events-none select-none bg-black"
-            aria-hidden="true"
-          >
-            <p className="text-[8vw] lg:text-[6vw] font-bold tracking-tight text-white/10 dark:text-white/5 whitespace-nowrap">
-              BŁAŻEJ KOWALCZYK
-            </p>
-          </div>
+          <NoiseOverlay />
+          <CursorGlow />
 
           <Header />
-          <main className="relative z-10 bg-background">{children}</main>
+          <main className="relative z-10 flex-1 pt-16">{children}</main>
           <Footer />
         </Providers>
       </body>

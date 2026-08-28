@@ -1,42 +1,47 @@
 'use client'
 
 import 'devicon/devicon.min.css'
+import React from 'react'
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/motion/reveal'
+import { SectionHeading } from './section-heading'
 
-const icons = [
-  'devicon-react-original',
-  'devicon-nextjs-original-wordmark',
-  'devicon-reactnative-original-wordmark',
-  'devicon-expo-original-wordmark',
-  'devicon-tailwindcss-original',
-  'devicon-nodejs-plain-wordmark',
-  'devicon-express-original',
-  'devicon-postgresql-plain',
-  'devicon-mongodb-plain',
-  'devicon-docker-plain',
+const SKILLS = [
+  { label: 'TypeScript', icon: 'devicon-typescript-plain' },
+  { label: 'JavaScript', icon: 'devicon-javascript-plain' },
+  { label: 'React', icon: 'devicon-react-original' },
+  { label: 'Next.js', icon: 'devicon-nextjs-plain' },
+  { label: 'React Native', icon: 'devicon-reactnative-original' },
+  { label: 'Expo', icon: 'devicon-expo-original' },
+  { label: 'Tailwind CSS', icon: 'devicon-tailwindcss-original' },
+  { label: 'Node.js', icon: 'devicon-nodejs-plain' },
+  { label: 'Express', icon: 'devicon-express-original' },
+  { label: 'PostgreSQL', icon: 'devicon-postgresql-plain' },
+  { label: 'MongoDB', icon: 'devicon-mongodb-plain' },
+  { label: 'Docker', icon: 'devicon-docker-plain' },
+  { label: 'Git', icon: 'devicon-git-plain' },
+  { label: 'Figma', icon: 'devicon-figma-plain' },
 ]
 
 export default function Skills() {
   return (
-    <section id="skills" className="page w-full flex flex-col gap-6 lg:gap-16 py-4 lg:py-16 pt-0">
-      <Reveal>
-        <p className="text-5xl">Tools and technologies I work with on a daily basis.</p>
-      </Reveal>
-      <StaggerContainer
-        className="flex flex-wrap lg:justify-start justify-center gap-6"
-        stagger={0.06}
-      >
-        {icons.map((icon) => (
-          <StaggerItem key={icon} direction="up">
-            <i className={`${icon} text-7xl`} />
+    <section id="skills" className="page relative flex flex-col gap-5 py-8 sm:py-10">
+      <SectionHeading>Skills and Technologies</SectionHeading>
+
+      <StaggerContainer className="flex flex-wrap gap-2" stagger={0.03}>
+        {SKILLS.map((skill) => (
+          <StaggerItem key={skill.label} direction="up">
+            <span className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-2.5 py-1 font-mono text-xs text-ink-2 transition-colors hover:border-brand hover:text-foreground">
+              <i className={`${skill.icon} text-sm`} aria-hidden="true" />
+              {skill.label}
+            </span>
           </StaggerItem>
         ))}
       </StaggerContainer>
-      <Reveal delay={0.2}>
-        <p className="text-sm">
-          These are the technologies I work with on a daily basis. I use them to build modern,
-          responsive web and mobile applications, create reliable backends, and deploy scalable
-          solutions.
+
+      <Reveal delay={0.15}>
+        <p className="text-[13px] text-ink-muted">
+          Day-to-day tooling for building responsive web and mobile apps, reliable backends and
+          scalable deployments.
         </p>
       </Reveal>
     </section>

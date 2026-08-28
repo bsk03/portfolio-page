@@ -9,6 +9,8 @@ export type Project = {
   description: string
   image: PayloadProject['image']
   screenshots: PayloadProject['screenshots']
+  demoVideo: PayloadProject['demoVideo']
+  status: NonNullable<PayloadProject['status']>
   demo: string | null
   source: string | null
   technologies: string[]
@@ -22,6 +24,8 @@ function mapProject(doc: PayloadProject): Project {
     description: doc.description,
     image: doc.image,
     screenshots: doc.screenshots ?? [],
+    demoVideo: doc.demoVideo ?? null,
+    status: doc.status ?? 'live',
     demo: doc.demo ?? null,
     source: doc.source ?? null,
     technologies: (doc.technologies ?? []).map((t) => t.name),

@@ -1,5 +1,6 @@
 build
-dist / media
+dist
+/media/
 node_modules
 .DS_Store
 .env
@@ -21,3 +22,10 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Local agent tooling
+.agents/
+skills-lock.json
+
+# TypeScript incremental build cache
+tsconfig.tsbuildinfo

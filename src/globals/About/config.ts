@@ -14,5 +14,15 @@ export const About: GlobalConfig = {
         description: 'Profile photo. Leave empty to use text-only layout.',
       },
     },
+    {
+      name: 'cv',
+      type: 'upload',
+      label: 'CV',
+      relationTo: 'media',
+      admin: {
+        description:
+          'CV as a PDF. When set, a "Download CV" button appears in the hero. Leave empty to hide it.',
+      },
+    },
   ],
 }
